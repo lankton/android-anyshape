@@ -4,6 +4,7 @@
 
     <declare-styleable name="AnyShapeImageView">
         <attr name="anyshapeMask" format="reference"/>
+        <attr name="anyshapeBackColor" format="color"/>
     </declare-styleable>
 
 </resources>

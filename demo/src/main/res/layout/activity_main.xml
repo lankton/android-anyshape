@@ -28,7 +28,7 @@
             <cn.lankton.anyshape.AnyshapeImageView
                 android:layout_width="210dp"
                 android:layout_height="140dp"
-                android:src="@drawable/scene"
+                app:anyshapeBackColor="@android:color/holo_red_light"
                 app:anyshapeMask="@drawable/rings"/>
         </LinearLayout>
     </ScrollView>

@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,11 +25,10 @@ public class AnyshapeImageView extends ImageView {
 
     Context context;
     Bitmap maskBitmap;
-    Drawable srcDrawable;
-    Bitmap srcBitmap;
     Path originMaskPath = null;
     Path realMaskPath = new Path();
     Paint paint = new Paint();
+    int backColor;
     int vWidth = 0;
     int vHeight = 0;
     public AnyshapeImageView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -42,9 +42,10 @@ public class AnyshapeImageView extends ImageView {
             if (attr == R.styleable.AnyShapeImageView_anyshapeMask) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 maskBitmap = BitmapFactory.decodeResource(context.getResources(), a.getResourceId(attr, 0), options);
-                originMaskPath = getPath(maskBitmap);
+                originMaskPath = getPathFromBitmap(maskBitmap);
+            } else if (attr == R.styleable.AnyShapeImageView_anyshapeBackColor) {
+                backColor = a.getColor(attr, Color.TRANSPARENT);
             }
-
         }
         a.recycle();
     }
@@ -62,10 +63,6 @@ public class AnyshapeImageView extends ImageView {
         super.onSizeChanged(w, h, oldw, oldh);
         vHeight = getHeight();
         vWidth = getWidth();
-        srcDrawable = this.getDrawable();
-        if (null != srcDrawable) {
-            srcBitmap = ((BitmapDrawable)srcDrawable).getBitmap();
-        }
         if (originMaskPath != null) {
             Matrix matrix = new Matrix();
             matrix.setScale(vWidth * 1f / maskBitmap.getWidth(), vHeight * 1f / maskBitmap.getHeight());
@@ -73,7 +70,12 @@ public class AnyshapeImageView extends ImageView {
         }
     }
 
-    private Path getPath(Bitmap mask) {
+    /**
+     * get the path from a mask bitmap
+     * @param mask
+     * @return
+     */
+    private Path getPathFromBitmap(Bitmap mask) {
         Path path = new Path();
         int bWidth = mask.getWidth();
         int bHeight = mask.getHeight();
@@ -105,26 +107,44 @@ public class AnyshapeImageView extends ImageView {
     }
 
 
-
-
     @Override
     protected void onDraw(Canvas canvas) {
-        if (vWidth == 0 || vHeight == 0 || null == realMaskPath) {
+        if (null == maskBitmap) {
+            // if the mask is null, the view will work as a normal ImageView
+            super.onDraw(canvas);
             return;
         }
-        Drawable srcDrawable = getDrawable();
-        if (null == srcDrawable) {
+        if (vWidth == 0 || vHeight == 0) {
             return;
         }
-        Bitmap srcBitmap = ((BitmapDrawable)srcDrawable).getBitmap();
-        Shader shader = new BitmapShader(srcBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        Matrix shaderMatrix = new Matrix();
-        float scaleX = vWidth * 1.0f / srcBitmap.getWidth();
-        float scaleY = vHeight * 1.0f / srcBitmap.getHeight();
-        shaderMatrix.setScale(scaleX, scaleY);
-        shader.setLocalMatrix(shaderMatrix);
-        paint.setShader(shader);
-        paint.setStyle(Paint.Style.STROKE);
+
+        paint.reset();
+        //get the drawable to show. if not set the src, will use  backColor
+        Drawable showDrawable = getDrawable();
+        if (null != showDrawable) {
+            Bitmap showBitmap = ((BitmapDrawable) showDrawable).getBitmap();
+            Shader shader = new BitmapShader(showBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            Matrix shaderMatrix = new Matrix();
+            float scaleX = vWidth * 1.0f / showBitmap.getWidth();
+            float scaleY = vHeight * 1.0f / showBitmap.getHeight();
+            shaderMatrix.setScale(scaleX, scaleY);
+            shader.setLocalMatrix(shaderMatrix);
+            paint.setShader(shader);
+            paint.setStyle(Paint.Style.STROKE);
+        } else {
+            //no src , use the backColor to fill the path
+            paint.setColor(backColor);
+            paint.setStyle(Paint.Style.STROKE);
+        }
         canvas.drawPath(realMaskPath, paint);
+
+    }
+
+    /**
+     * allow coder to set the backColor
+     * @param color
+     */
+    public void setBackColor(int color) {
+        backColor = color;
     }
 }
