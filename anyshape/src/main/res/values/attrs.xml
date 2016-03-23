@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="AnyShapeImageView">
+        <attr name="anyshapeMask" format="reference"/>
+    </declare-styleable>
+
+</resources>
