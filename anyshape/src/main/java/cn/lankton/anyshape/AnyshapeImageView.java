@@ -77,7 +77,6 @@ public class AnyshapeImageView extends ImageView {
         Path path = new Path();
         int bWidth = mask.getWidth();
         int bHeight = mask.getHeight();
-        Log.v("lanktondebug", "" + bWidth + "," + bHeight);
         int[] origin = new int[bWidth];
         int lastA = 0;
         for (int i = 0; i < bHeight; i++) {
@@ -110,14 +109,11 @@ public class AnyshapeImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.v("lanktondebug", "" + vWidth + "," + vHeight + "," +(realMaskPath == null));
-        if (vWidth == 0 || vHeight == 0 || null == realMaskPath || null == maskBitmap) {
-            Log.v("lanktondebug", "mask null");
+        if (vWidth == 0 || vHeight == 0 || null == realMaskPath) {
             return;
         }
         Drawable srcDrawable = getDrawable();
         if (null == srcDrawable) {
-            Log.v("lanktondebug", "src null");
             return;
         }
         Bitmap srcBitmap = ((BitmapDrawable)srcDrawable).getBitmap();
@@ -129,8 +125,6 @@ public class AnyshapeImageView extends ImageView {
         shader.setLocalMatrix(shaderMatrix);
         paint.setShader(shader);
         paint.setStyle(Paint.Style.STROKE);
-//        canvas.drawColor(Color.BLUE);
         canvas.drawPath(realMaskPath, paint);
-//        canvas.drawBitmap(maskBitmap, 0, 0, null);
     }
 }
