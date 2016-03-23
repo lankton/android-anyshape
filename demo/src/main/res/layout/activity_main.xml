@@ -16,6 +16,11 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
             <cn.lankton.anyshape.AnyshapeImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/kumamon"
+                app:anyshapeMask="@drawable/singlestar"/>
+            <cn.lankton.anyshape.AnyshapeImageView
                 android:layout_width="300dp"
                 android:layout_height="200dp"
                 android:src="@drawable/scene"
@@ -23,7 +28,6 @@
             <cn.lankton.anyshape.AnyshapeImageView
                 android:layout_width="210dp"
                 android:layout_height="140dp"
-                android:scaleType="fitXY"
                 android:src="@drawable/scene"
                 app:anyshapeMask="@drawable/rings"/>
         </LinearLayout>
