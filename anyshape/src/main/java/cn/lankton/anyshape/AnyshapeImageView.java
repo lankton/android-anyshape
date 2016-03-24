@@ -24,8 +24,9 @@ import android.widget.ImageView;
 public class AnyshapeImageView extends ImageView {
 
     Context context;
-    Bitmap maskBitmap;
     Path originMaskPath = null;
+    int originMaskWidth = 0;
+    int originMaskHeight = 0;
     Path realMaskPath = new Path();
     Paint paint = new Paint();
     int backColor;
@@ -41,8 +42,27 @@ public class AnyshapeImageView extends ImageView {
             final int attr = a.getIndex(i);
             if (attr == R.styleable.AnyShapeImageView_anyshapeMask) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                maskBitmap = BitmapFactory.decodeResource(context.getResources(), a.getResourceId(attr, 0), options);
-                originMaskPath = getPathFromBitmap(maskBitmap);
+                int maskResId = a.getResourceId(attr, 0);
+                if (0 == maskResId) {
+                    //did not set mask
+                    continue;
+                }
+                PathInfo pi = PathManager.getInstance().getPathInfo(maskResId);
+                if (null != pi) {
+                    originMaskPath = pi.path;
+                    originMaskWidth = pi.width;
+                    originMaskHeight = pi.height;
+                } else {
+                    Bitmap maskBitmap = BitmapFactory.decodeResource(context.getResources(), a.getResourceId(attr, 0), options);
+                    originMaskPath = getPathFromBitmap(maskBitmap);
+                    originMaskWidth = maskBitmap.getWidth();
+                    originMaskHeight = maskBitmap.getHeight();
+                    pi = new PathInfo();
+                    pi.height = originMaskHeight;
+                    pi.width = originMaskWidth;
+                    pi.path = originMaskPath;
+                    PathManager.getInstance().addPathInfo(maskResId, pi);
+                }
             } else if (attr == R.styleable.AnyShapeImageView_anyshapeBackColor) {
                 backColor = a.getColor(attr, Color.TRANSPARENT);
             }
@@ -65,7 +85,7 @@ public class AnyshapeImageView extends ImageView {
         vWidth = getWidth();
         if (originMaskPath != null) {
             Matrix matrix = new Matrix();
-            matrix.setScale(vWidth * 1f / maskBitmap.getWidth(), vHeight * 1f / maskBitmap.getHeight());
+            matrix.setScale(vWidth * 1f / originMaskWidth, vHeight * 1f / originMaskHeight);
             originMaskPath.transform(matrix, realMaskPath);
         }
     }
@@ -109,7 +129,7 @@ public class AnyshapeImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (null == maskBitmap) {
+        if (null == originMaskPath) {
             // if the mask is null, the view will work as a normal ImageView
             super.onDraw(canvas);
             return;
