@@ -1,24 +1,32 @@
 package cn.lankton.anyshape.demo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.lankton.anyshape.PathManager;
+
 public class MainActivity extends AppCompatActivity {
 
-    int colors[] = {Color.BLUE, Color.WHITE, Color.YELLOW, Color.LTGRAY, Color.RED, Color.GREEN, Color.CYAN};
-    View root;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        root = findViewById(R.id.root);
-        findViewById(R.id.btn_change).setOnClickListener(new View.OnClickListener() {
+        List<Integer> ids = new ArrayList<>();
+        ids.add(R.drawable.singlestar);
+        ids.add(R.drawable.rings);
+        ids.add(R.drawable.text);
+        PathManager.getInstance().createPaths(this, ids);
+        findViewById(R.id.btn_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = (int)(colors.length * Math.random());
-                root.setBackgroundColor(colors[index]);
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
     }
