@@ -11,7 +11,7 @@ All we need to make are 3 mask PNGs like below (**the background must be transpa
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/rings_1.png" height="100px"/>
 
 ##Usage##
-You can use the AnyshapeImageView like below in you layout file:
+You can use the AnyshapeImageView like below in your layout file:
 
 ```xml
 <cn.lankton.anyshape.AnyshapeImageView
