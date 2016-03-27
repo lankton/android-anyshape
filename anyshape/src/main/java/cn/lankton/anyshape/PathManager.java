@@ -69,6 +69,11 @@ public class PathManager {
         return path;
     }
 
+    /**
+     * Asynchronous method to init paths by resourceids
+     * @param context
+     * @param resList
+     */
     public void createPaths(Context context, List<Integer> resList) {
         for (Integer resId : resList) {
             if (resId > 0) {
@@ -95,6 +100,7 @@ public class PathManager {
             pi.height = maskBitmap.getHeight();
             //creating is done, add the path info into the cache
             PathManager.getInstance().addPathInfo(resId, pi);
+            maskBitmap.recycle();
             return null;
         }
 

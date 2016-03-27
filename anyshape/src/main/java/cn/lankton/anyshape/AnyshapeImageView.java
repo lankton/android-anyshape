@@ -12,10 +12,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -61,6 +59,7 @@ public class AnyshapeImageView extends ImageView {
                     pi.width = originMaskWidth;
                     pi.path = originMaskPath;
                     PathManager.getInstance().addPathInfo(maskResId, pi);
+                    maskBitmap.recycle();
                 }
             } else if (attr == R.styleable.AnyShapeImageView_anyshapeBackColor) {
                 backColor = a.getColor(attr, Color.TRANSPARENT);
@@ -83,6 +82,7 @@ public class AnyshapeImageView extends ImageView {
         vHeight = getHeight();
         vWidth = getWidth();
         if (originMaskPath != null) {
+            //scale the size of the path to fit the one of this View
             Matrix matrix = new Matrix();
             matrix.setScale(vWidth * 1f / originMaskWidth, vHeight * 1f / originMaskHeight);
             originMaskPath.transform(matrix, realMaskPath);
@@ -101,6 +101,7 @@ public class AnyshapeImageView extends ImageView {
         }
 
         paint.reset();
+        paint.setStyle(Paint.Style.STROKE);
         //get the drawable to show. if not set the src, will use  backColor
         Drawable showDrawable = getDrawable();
         if (null != showDrawable) {
@@ -112,11 +113,9 @@ public class AnyshapeImageView extends ImageView {
             shaderMatrix.setScale(scaleX, scaleY);
             shader.setLocalMatrix(shaderMatrix);
             paint.setShader(shader);
-            paint.setStyle(Paint.Style.STROKE);
         } else {
             //no src , use the backColor to fill the path
             paint.setColor(backColor);
-            paint.setStyle(Paint.Style.STROKE);
         }
         canvas.drawPath(realMaskPath, paint);
 
