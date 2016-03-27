@@ -18,16 +18,19 @@
             <cn.lankton.anyshape.AnyshapeImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_marginTop="20dp"
                 android:src="@drawable/kumamon"
                 app:anyshapeMask="@drawable/singlestar"/>
             <cn.lankton.anyshape.AnyshapeImageView
                 android:layout_width="300dp"
                 android:layout_height="200dp"
+                android:layout_marginTop="20dp"
                 android:src="@drawable/scene"
                 app:anyshapeMask="@drawable/text"/>
             <cn.lankton.anyshape.AnyshapeImageView
                 android:layout_width="210dp"
                 android:layout_height="140dp"
+                android:layout_marginTop="20dp"
                 app:anyshapeBackColor="@android:color/holo_red_light"
                 app:anyshapeMask="@drawable/rings"/>
         </LinearLayout>
