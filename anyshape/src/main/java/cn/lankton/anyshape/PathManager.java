@@ -53,6 +53,8 @@ public class PathManager {
                     path.moveTo(j, i);
                 } else if (a == 0 && lastA !=0 ) {
                     path.lineTo(j - 1, i);
+                } else if (a != 0 && j == bWidth - 1) {
+                    path.lineTo(j, i);
                 }
                 lastA = a;
             }
