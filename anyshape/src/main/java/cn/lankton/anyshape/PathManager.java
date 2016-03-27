@@ -49,13 +49,8 @@ public class PathManager {
             lastA = 0;
             for (int j = 0; j < bWidth; j++) {
                 int a = Color.alpha(origin[j]);
-                if (a != 0) {
-                    if (lastA == 0) {
-                        path.moveTo(j, i);
-                    }
-                }
-                if (a != 0 && j == bWidth - 1) {
-                    path.lineTo(j, i);
+                if (a != 0 && lastA == 0) {
+                    path.moveTo(j, i);
                 } else if (a == 0 && lastA !=0 ) {
                     path.lineTo(j - 1, i);
                 }
