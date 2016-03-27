@@ -43,16 +43,12 @@ public class PathManager {
         int bWidth = mask.getWidth();
         int bHeight = mask.getHeight();
         int[] origin = new int[bWidth];
-        int lastA = 0;
+        int lastA;
         for (int i = 0; i < bHeight; i++) {
             mask.getPixels(origin, 0, bWidth, 0, i, bWidth, 1);
+            lastA = 0;
             for (int j = 0; j < bWidth; j++) {
                 int a = Color.alpha(origin[j]);
-                if (j == 0) {
-                    lastA = 0;
-                    path.moveTo(0, i);
-                    continue;
-                }
                 if (a != 0) {
                     if (lastA == 0) {
                         path.moveTo(j, i);
