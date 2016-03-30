@@ -1,5 +1,5 @@
 # android-anyshape
-**With the solution, views of any shape can be created and showed in Android applications.**
+**With the solution, pictures can be displayed in any shape on Android platform.**
 
 ##Effect##
 The left is the UI using normal ImageViews, and the right is UI using the AnyshapeImageViews  
