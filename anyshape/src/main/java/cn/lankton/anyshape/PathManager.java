@@ -18,6 +18,10 @@ public class PathManager {
     private Map<Integer,PathInfo> pathMap = new HashMap<>();
     private static PathManager instance = null;
 
+    // the limit for bitmap of masks.used for avoiding OOM
+    public static final int maskLimitedWidth = 100;
+    public static final int maskLimitedHeight = 100;
+
     public static synchronized PathManager getInstance() {
         if (null == instance) {
             instance = new PathManager();
@@ -87,6 +91,20 @@ public class PathManager {
         protected Path doInBackground(Integer... params) {
             int resId = params[0];
             PathInfo pi = new PathInfo();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(context.getResources(), resId, options);
+            int widthRatio = (int)(options.outWidth * 1f / maskLimitedWidth + 0.5);
+            int heightRatio = (int)(options.outHeight * 1f / maskLimitedHeight + 0.5);
+            if (widthRatio > heightRatio) {
+                options.inSampleSize = widthRatio;
+            } else {
+                options.inSampleSize = heightRatio;
+            }
+            if (options.inSampleSize == 0) {
+                options.inSampleSize = 1;
+            }
+            options.inJustDecodeBounds = false;
             Bitmap maskBitmap = BitmapFactory.decodeResource(context.getResources(), resId);
             pi.path = PathManager.getInstance().getPathFromBitmap(maskBitmap);
             pi.width = maskBitmap.getWidth();

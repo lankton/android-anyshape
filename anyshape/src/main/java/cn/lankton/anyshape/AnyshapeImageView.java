@@ -27,6 +27,9 @@ public class AnyshapeImageView extends ImageView {
     int originMaskHeight = 0;
     Path realMaskPath = new Path();
     Paint paint = new Paint();
+
+
+
     int backColor;
     int vWidth = 0;
     int vHeight = 0;
@@ -50,7 +53,21 @@ public class AnyshapeImageView extends ImageView {
                     originMaskWidth = pi.width;
                     originMaskHeight = pi.height;
                 } else {
-                    Bitmap maskBitmap = BitmapFactory.decodeResource(context.getResources(), a.getResourceId(attr, 0));
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeResource(context.getResources(), maskResId, options);
+                    int widthRatio = (int)(options.outWidth * 1f / PathManager.maskLimitedWidth + 0.5);
+                    int heightRatio = (int)(options.outHeight * 1f / PathManager.maskLimitedHeight + 0.5);
+                    if (widthRatio > heightRatio) {
+                        options.inSampleSize = widthRatio;
+                    } else {
+                        options.inSampleSize = heightRatio;
+                    }
+                    if (options.inSampleSize == 0) {
+                        options.inSampleSize = 1;
+                    }
+                    options.inJustDecodeBounds = false;
+                    Bitmap maskBitmap = BitmapFactory.decodeResource(context.getResources(), a.getResourceId(attr, 0), options);
                     originMaskPath = PathManager.getInstance().getPathFromBitmap(maskBitmap);
                     originMaskWidth = maskBitmap.getWidth();
                     originMaskHeight = maskBitmap.getHeight();
