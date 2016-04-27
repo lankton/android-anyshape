@@ -46,6 +46,20 @@ ids.add(R.drawable.rings);
 ids.add(R.drawable.text);
 PathManager.getInstance().createPaths(this, ids);
 ```
+update: 2016-04-27
+add a new method for user to create paths using their self-difined limit for the mask bitmap.
+```java
+List<Integer> ids = new ArrayList<>();
+ids.add(R.drawable.singlestar);
+ids.add(R.drawable.rings);
+ids.add(R.drawable.text);
+/*
+You can also use PathManager.getInstance().createPaths(this, ids);
+If so, the default limit will be used for avoiding OOM
+the unit of the limit is px.
+*/
+PathManager.getInstance().createPaths(this, ids, 1000, 1000);
+```
 
 ##summary##
 The code is not hard for anybody to understand. Just hope that it can provide some help or inspiration for you.
