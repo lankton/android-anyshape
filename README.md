@@ -34,8 +34,8 @@ if you want to create a view with pure color , you can use the code like this:
     app:anyshapeMask="@drawable/rings"/>
 ```
 
-if your AnyshapeImageView is too big to show shaped image quickly, you may need to init paths before they are being used. 
-**In most situations, you don't need to do this.**, **the usage in layout file above will be enough. **
+If your AnyshapeImageView is too big to show shaped image quickly, you may need to init the path before its being used. 
+**In most situations, you don't need to do this. The usage in layout file above would be enough.**
 ```java
 List<Integer> ids = new ArrayList<>();  
 ids.add(R.drawable.singlestar);  
