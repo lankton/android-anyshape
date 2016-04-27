@@ -21,7 +21,12 @@ public class MainActivity extends AppCompatActivity {
         ids.add(R.drawable.singlestar);
         ids.add(R.drawable.rings);
         ids.add(R.drawable.text);
-        PathManager.getInstance().createPaths(this, ids);
+        /*
+        You can also use PathManager.getInstance().createPaths(this, ids);
+        If so, the default limit will be used for avoiding OOM
+        the unit of the limit is px.
+        */
+        PathManager.getInstance().createPaths(this, ids, 1000, 1000);
         findViewById(R.id.btn_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -67,14 +67,30 @@ public class PathManager {
     }
 
     /**
-     * Asynchronous method to init paths by resourceids
+     * Asynchronous method to init paths by resourceids, using the default limit
      * @param context
      * @param resList
      */
     public void createPaths(Context context, List<Integer> resList) {
         for (Integer resId : resList) {
             if (resId > 0) {
-                PathAsyncTask task = new PathAsyncTask(context);
+                PathAsyncTask task = new PathAsyncTask(context, maskLimitedWidth, maskLimitedHeight);
+                task.execute(resId);
+            }
+        }
+    }
+
+    /**
+     * Asynchronous method to init paths by resourceids, using the self-defined limit
+     * @param context
+     * @param resList
+     * @param limitedWidth the limt you set for mask width
+     * @param limitedHeight the limit you set for mask height
+     */
+    public void createPaths(Context context, List<Integer> resList, int limitedWidth, int limitedHeight) {
+        for (Integer resId : resList) {
+            if (resId > 0) {
+                PathAsyncTask task = new PathAsyncTask(context, limitedWidth, limitedHeight);
                 task.execute(resId);
             }
         }
@@ -82,9 +98,13 @@ public class PathManager {
 
     class PathAsyncTask extends AsyncTask <Integer, Void, Path> {
         private Context context;
-        public PathAsyncTask(Context context){
+        private int limitedWidth = 600;
+        private int limitedHeight = 600;
+        public PathAsyncTask(Context context, int limitedWidth, int limitedHeight){
             super();
             this.context = context;
+            this.limitedWidth = limitedWidth;
+            this.limitedHeight = limitedHeight;
         }
 
         @Override
@@ -94,8 +114,8 @@ public class PathManager {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeResource(context.getResources(), resId, options);
-            int widthRatio = (int)(options.outWidth * 1f / maskLimitedWidth + 0.5);
-            int heightRatio = (int)(options.outHeight * 1f / maskLimitedHeight + 0.5);
+            int widthRatio = (int)(options.outWidth * 1f / this.limitedWidth + 0.5);
+            int heightRatio = (int)(options.outHeight * 1f / this.limitedHeight + 0.5);
             if (widthRatio > heightRatio) {
                 options.inSampleSize = widthRatio;
             } else {
