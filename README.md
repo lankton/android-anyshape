@@ -34,11 +34,8 @@ if you want to create a view with pure color , you can use the code like this:
     app:anyshapeMask="@drawable/rings"/>
 ```
 
-
-As we know, it will cost time to get the path from a bitmap. So, there is a solution to resolve this problem. 
-
-There is a mapping cache, so that we can figure out and save paths we need before we use. We can do this job **in the onCreate method of Application, or somewhere else before you use the AnyshapeImageView**, like this:
-
+if your AnyshapeImageView is too big to show shaped image quickly, you may need to init paths before they are being used. 
+**In most situations, you don't need to do this.**, **the usage in layout file above will be enough. **
 ```java
 List<Integer> ids = new ArrayList<>();  
 ids.add(R.drawable.singlestar);  
@@ -47,17 +44,9 @@ ids.add(R.drawable.text);
 PathManager.getInstance().createPaths(this, ids);
 ```
 update: 2016-04-27
-add a new method for user to create paths using their self-difined limit for the mask bitmap.
+add a new method to init paths using self-difined limit for the mask bitmap, if you know the size of your AnyshapeImageView.
 ```java
-List<Integer> ids = new ArrayList<>();
-ids.add(R.drawable.singlestar);
-ids.add(R.drawable.rings);
-ids.add(R.drawable.text);
-/*
-You can also use PathManager.getInstance().createPaths(this, ids);
-If so, the default limit will be used for avoiding OOM
-the unit of the limit is px.
-*/
+// the unit of the limit is px.
 PathManager.getInstance().createPaths(this, ids, 1000, 1000);
 ```
 
