@@ -96,8 +96,8 @@ public class AnyshapeImageView extends ImageView {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeResource(context.getResources(), maskResId, options);
-                int widthRatio = (int)(options.outWidth * 1f / mWidth + 0.5);
-                int heightRatio = (int)(options.outHeight * 1f / mHeight + 0.5);
+                int widthRatio = (int)(options.outWidth * 1f / mWidth);
+                int heightRatio = (int)(options.outHeight * 1f / mHeight);
                 if (widthRatio > heightRatio) {
                     options.inSampleSize = widthRatio;
                 } else {
