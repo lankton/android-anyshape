@@ -14,6 +14,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -27,6 +28,7 @@ public class AnyshapeImageView extends ImageView {
     int originMaskHeight = 0;
     Path realMaskPath = new Path();
     Paint paint = new Paint();
+    int maskResId = 0;
 
 
 
@@ -42,42 +44,12 @@ public class AnyshapeImageView extends ImageView {
         {
             final int attr = a.getIndex(i);
             if (attr == R.styleable.AnyShapeImageView_anyshapeMask) {
-                int maskResId = a.getResourceId(attr, 0);
+                maskResId = a.getResourceId(attr, 0);
                 if (0 == maskResId) {
                     //did not set mask
                     continue;
                 }
-                PathInfo pi = PathManager.getInstance().getPathInfo(maskResId);
-                if (null != pi) {
-                    originMaskPath = pi.path;
-                    originMaskWidth = pi.width;
-                    originMaskHeight = pi.height;
-                } else {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    BitmapFactory.decodeResource(context.getResources(), maskResId, options);
-                    int widthRatio = (int)(options.outWidth * 1f / PathManager.maskLimitedWidth + 0.5);
-                    int heightRatio = (int)(options.outHeight * 1f / PathManager.maskLimitedHeight + 0.5);
-                    if (widthRatio > heightRatio) {
-                        options.inSampleSize = widthRatio;
-                    } else {
-                        options.inSampleSize = heightRatio;
-                    }
-                    if (options.inSampleSize == 0) {
-                        options.inSampleSize = 1;
-                    }
-                    options.inJustDecodeBounds = false;
-                    Bitmap maskBitmap = BitmapFactory.decodeResource(context.getResources(), a.getResourceId(attr, 0), options);
-                    originMaskPath = PathManager.getInstance().getPathFromBitmap(maskBitmap);
-                    originMaskWidth = maskBitmap.getWidth();
-                    originMaskHeight = maskBitmap.getHeight();
-                    pi = new PathInfo();
-                    pi.height = originMaskHeight;
-                    pi.width = originMaskWidth;
-                    pi.path = originMaskPath;
-                    PathManager.getInstance().addPathInfo(maskResId, pi);
-                    maskBitmap.recycle();
-                }
+
             } else if (attr == R.styleable.AnyShapeImageView_anyshapeBackColor) {
                 backColor = a.getColor(attr, Color.TRANSPARENT);
             }
@@ -103,6 +75,49 @@ public class AnyshapeImageView extends ImageView {
             Matrix matrix = new Matrix();
             matrix.setScale(vWidth * 1f / originMaskWidth, vHeight * 1f / originMaskHeight);
             originMaskPath.transform(matrix, realMaskPath);
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int mWidth = getMeasuredWidth();
+        int mHeight = getMeasuredHeight();
+        if (mWidth != 0 && mHeight != 0) {
+            if (maskResId <= 0) {
+                return;
+            }
+            PathInfo pi = PathManager.getInstance().getPathInfo(maskResId);
+            if (null != pi) {
+                originMaskPath = pi.path;
+                originMaskWidth = pi.width;
+                originMaskHeight = pi.height;
+            } else {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeResource(context.getResources(), maskResId, options);
+                int widthRatio = (int)(options.outWidth * 1f / mWidth + 0.5);
+                int heightRatio = (int)(options.outHeight * 1f / mHeight + 0.5);
+                if (widthRatio > heightRatio) {
+                    options.inSampleSize = widthRatio;
+                } else {
+                    options.inSampleSize = heightRatio;
+                }
+                if (options.inSampleSize == 0) {
+                    options.inSampleSize = 1;
+                }
+                options.inJustDecodeBounds = false;
+                Bitmap maskBitmap = BitmapFactory.decodeResource(context.getResources(), maskResId, options);
+                originMaskPath = PathManager.getInstance().getPathFromBitmap(maskBitmap);
+                originMaskWidth = maskBitmap.getWidth();
+                originMaskHeight = maskBitmap.getHeight();
+                pi = new PathInfo();
+                pi.height = originMaskHeight;
+                pi.width = originMaskWidth;
+                pi.path = originMaskPath;
+                PathManager.getInstance().addPathInfo(maskResId, pi);
+                maskBitmap.recycle();
+            }
         }
     }
 
