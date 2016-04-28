@@ -159,5 +159,6 @@ public class AnyshapeImageView extends ImageView {
      */
     public void setBackColor(int color) {
         backColor = color;
+        postInvalidate();
     }
 }
