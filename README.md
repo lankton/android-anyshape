@@ -4,7 +4,7 @@
 ##Effect##
 The left is the UI using normal ImageViews, and the right is UI using the AnyshapeImageViews  
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_normal.jpg" width="200px"/>
-<img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_mask.jpg" width="200px"/>  
+<img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_mask_gif.gif" width="200px"/>  
 All we need to make are 3 mask PNGs like below (**the background must be transparent**):   
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/singerstar_1.png" height="100px"/>
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/text_1.png" height="100px"/>
@@ -33,7 +33,11 @@ if you want to create a view with pure color , you can use the code like this:
     app:anyshapeBackColor="@android:color/holo_red_light"
     app:anyshapeMask="@drawable/rings"/>
 ```
+If you want to change the pure color **dynamically**, do like this:
 
+```java
+anyshapeImageView.setBackColor(Color.Green);
+```
 If your AnyshapeImageView is too big to show shaped image quickly, you may need to init the path before its being used. 
 **In most situations, you don't need to do this. The usage in layout file above would be enough.**
 ```java
