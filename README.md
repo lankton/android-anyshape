@@ -3,8 +3,8 @@
 
 ##Effect##
 The left is the UI using normal ImageViews, and the right is UI using the AnyshapeImageViews  
-<img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_normal.jpg" width="200px"/>
-<img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_mask_gif.gif" width="200px"/>  
+<img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_normal.jpg" height="400px"/>
+<img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_mask_gif.gif" height="400px"/>  
 All we need to make are 3 mask PNGs like below (**the background must be transparent**):   
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/singerstar_1.png" height="100px"/>
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/text_1.png" height="100px"/>
