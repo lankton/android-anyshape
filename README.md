@@ -38,21 +38,7 @@ If you want to change the pure color **dynamically**, do like this:
 ```java
 anyshapeImageView.setBackColor(Color.Green);
 ```
-If your AnyshapeImageView is too big to show shaped image quickly, you may need to init the path before its being used. 
-**In most situations, you don't need to do this. The usage in layout file above would be enough.**
-```java
-List<Integer> ids = new ArrayList<>();  
-ids.add(R.drawable.singlestar);  
-ids.add(R.drawable.rings);
-ids.add(R.drawable.text);
-PathManager.getInstance().createPaths(this, ids);
-```
-update: 2016-04-27
-add a new method to init paths using self-difined limit for the mask bitmap, if you know the size of your AnyshapeImageView.
-```java
-// the unit of the limit is px.
-PathManager.getInstance().createPaths(this, ids, 1000, 1000);
-```
+
 
 ##summary##
 The code is not hard for anybody to understand. Just hope that it can provide some help or inspiration for you.
