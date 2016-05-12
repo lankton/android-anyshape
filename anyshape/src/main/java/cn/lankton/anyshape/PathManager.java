@@ -1,14 +1,10 @@
 package cn.lankton.anyshape;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Path;
-import android.os.AsyncTask;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,9 +14,6 @@ public class PathManager {
     private Map<Integer,PathInfo> pathMap = new HashMap<>();
     private static PathManager instance = null;
 
-    // the limit for bitmap of masks.used for avoiding OOM
-    public static final int maskLimitedWidth = 600;
-    public static final int maskLimitedHeight = 600;
 
     public static synchronized PathManager getInstance() {
         if (null == instance) {
@@ -66,74 +59,4 @@ public class PathManager {
         return path;
     }
 
-    /**
-     * Asynchronous method to init paths by resourceids, using the default limit
-     * @param context
-     * @param resList
-     */
-    public void createPaths(Context context, List<Integer> resList) {
-        for (Integer resId : resList) {
-            if (resId > 0) {
-                PathAsyncTask task = new PathAsyncTask(context, maskLimitedWidth, maskLimitedHeight);
-                task.execute(resId);
-            }
-        }
-    }
-
-    /**
-     * Asynchronous method to init paths by resourceids, using the self-defined limit
-     * @param context
-     * @param resList
-     * @param limitedWidth the limt you set for mask width
-     * @param limitedHeight the limit you set for mask height
-     */
-    public void createPaths(Context context, List<Integer> resList, int limitedWidth, int limitedHeight) {
-        for (Integer resId : resList) {
-            if (resId > 0) {
-                PathAsyncTask task = new PathAsyncTask(context, limitedWidth, limitedHeight);
-                task.execute(resId);
-            }
-        }
-    }
-
-    class PathAsyncTask extends AsyncTask <Integer, Void, Path> {
-        private Context context;
-        private int limitedWidth = 600;
-        private int limitedHeight = 600;
-        public PathAsyncTask(Context context, int limitedWidth, int limitedHeight){
-            super();
-            this.context = context;
-            this.limitedWidth = limitedWidth;
-            this.limitedHeight = limitedHeight;
-        }
-
-        @Override
-        protected Path doInBackground(Integer... params) {
-            int resId = params[0];
-            PathInfo pi = new PathInfo();
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(context.getResources(), resId, options);
-            int widthRatio = (int)(options.outWidth * 1f / this.limitedWidth + 0.5);
-            int heightRatio = (int)(options.outHeight * 1f / this.limitedHeight + 0.5);
-            if (widthRatio > heightRatio) {
-                options.inSampleSize = widthRatio;
-            } else {
-                options.inSampleSize = heightRatio;
-            }
-            if (options.inSampleSize == 0) {
-                options.inSampleSize = 1;
-            }
-            options.inJustDecodeBounds = false;
-            Bitmap maskBitmap = BitmapFactory.decodeResource(context.getResources(), resId, options);
-            pi.path = PathManager.getInstance().getPathFromBitmap(maskBitmap);
-            pi.width = maskBitmap.getWidth();
-            pi.height = maskBitmap.getHeight();
-            //creating is done, add the path info into the cache
-            PathManager.getInstance().addPathInfo(resId, pi);
-            maskBitmap.recycle();
-            return null;
-        }
-
-    }
 }
