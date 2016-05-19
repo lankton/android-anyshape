@@ -22,7 +22,7 @@ compile 'cn.lankton:anyshape:1.0.0'
 ```
 <dependency>
   <groupId>cn.lankton</groupId>
-  <artifactId>flowlayout</artifactId>
+  <artifactId>anyshape</artifactId>
   <version>1.0.0</version>
   <type>pom</type>
 </dependency>
