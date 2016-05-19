@@ -18,6 +18,15 @@ All we need to make are 3 mask PNGs like below (**the background must be transpa
 ```
 compile 'cn.lankton:anyshape:1.0.0'
 ```
+###maven###
+```
+<dependency>
+  <groupId>cn.lankton</groupId>
+  <artifactId>flowlayout</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
 
 ##Usage##
 You can use the AnyshapeImageView like below in your layout file:
