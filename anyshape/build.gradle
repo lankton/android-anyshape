@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'bintray-release'
 
 android {
     compileSdkVersion 23
@@ -22,4 +23,14 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
+}
+
+//添加
+publish {
+    userOrg = 'lankton'
+    groupId = 'cn.lankton'
+    artifactId = 'anyshape'
+    publishVersion = '1.0.0'
+    desc = 'A solution that can help developers display pictures in any shape. '
+    website = 'https://github.com/lankton/android-anyshape'
 }
