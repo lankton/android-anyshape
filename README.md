@@ -1,3 +1,6 @@
+
+[ ![Download](https://api.bintray.com/packages/lankton/maven/anyshape/images/download.svg) ](https://bintray.com/lankton/maven/anyshape/_latestVersion)
+
 # android-anyshape
 **With the solution, pictures can be displayed in any shape on Android platform.**
 
@@ -9,6 +12,21 @@ All we need to make are 3 mask PNGs like below (**the background must be transpa
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/singerstar_1.png" height="100px"/>
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/text_1.png" height="100px"/>
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/rings_1.png" height="100px"/>
+
+##Dependencies##
+###gradle###
+```
+compile 'cn.lankton:anyshape:1.0.0'
+```
+###maven###
+```
+<dependency>
+  <groupId>cn.lankton</groupId>
+  <artifactId>anyshape</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
 
 ##Usage##
 You can use the AnyshapeImageView like below in your layout file:
