@@ -15,7 +15,7 @@ All we need to make are 3 mask PNGs like below (**the background must be transpa
 
 ## Dependencies
 ### latest version
-see it as an icon int the beginning of the README file.
+see it as an icon in the beginning of the README file.
 ### gradle
 ```
 compile 'cn.lankton:anyshape:latest version'
