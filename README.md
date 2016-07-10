@@ -4,7 +4,7 @@
 # android-anyshape
 **With the solution, pictures can be displayed in any shape on Android platform.**
 
-##Effect##
+## Effect
 The left is the UI using normal ImageViews, and the right is UI using the AnyshapeImageViews  
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_normal.jpg" height="400px"/>
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/with_mask_gif.gif" height="400px"/>  
@@ -13,22 +13,24 @@ All we need to make are 3 mask PNGs like below (**the background must be transpa
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/text_1.png" height="100px"/>
 <img src="https://github.com/lankton/android-anyshape/blob/master/pictures/rings_1.png" height="100px"/>
 
-##Dependencies##
-###gradle###
+## Dependencies
+### latest version
+see it as an icon int the beginning of the README file.
+### gradle
 ```
-compile 'cn.lankton:anyshape:1.0.0'
+compile 'cn.lankton:anyshape:latest version'
 ```
-###maven###
+### maven
 ```
 <dependency>
   <groupId>cn.lankton</groupId>
   <artifactId>anyshape</artifactId>
-  <version>1.0.0</version>
+  <version>latest version</version>
   <type>pom</type>
 </dependency>
 ```
 
-##Usage##
+## Usage
 You can use the AnyshapeImageView like below in your layout file:
 
 ```xml
@@ -58,6 +60,6 @@ anyshapeImageView.setBackColor(Color.Green);
 ```
 
 
-##summary##
+## summary
 The code is not hard for anybody to understand. Just hope that it can provide some help or inspiration for you.
 
