@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -30,7 +30,7 @@ publish {
     userOrg = 'lankton'
     groupId = 'cn.lankton'
     artifactId = 'anyshape'
-    publishVersion = '1.0.0'
+    publishVersion = '2.0.0'
     desc = 'A solution that can help developers display pictures in any shape. '
     website = 'https://github.com/lankton/android-anyshape'
 }
